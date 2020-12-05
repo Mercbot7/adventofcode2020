@@ -1,32 +1,55 @@
-$inputs = Get-Content ~/Desktop/AoC/Day_3/input_3.txt
+$inputs = Get-Content ~/Desktop/AoC/Day_4/input_4.txt -raw
 
-$slopes = @(@(1,1),@(3,1),@(5,1),@(7,1),@(1,2))
+$props = '[
+    {"prop" : "byr","required" : "True"},
+    {"prop" : "iyr","required" : "True"},
+    {"prop" : "eyr","required" : "True"},
+    {"prop" : "hgt","required" : "True"},
+    {"prop" : "hcl","required" : "True"},
+    {"prop" : "ecl","required" : "True"},
+    {"prop" : "pid","required" : "True"},
+    {"prop" : "cid","required" : "False"}
+]'
 
-$answer = 0
+$objprops = $props | ConvertFrom-json
 
-$trees = @();
+$Passports = @()
+$Valid = 0
+$Invlaid = 0
 
-for ($s = 0; $s -lt $slopes.count; $s++) {
-    $slopetrees = 0;
+$pprecords = $inputs -split "`n`n" | ForEach-Object {$_ -replace "`n"," "}
 
-    # $x is the left right and $y is the up down so $inputs[$y][$x]
-    for ($($x = 0; $y = 0); $y -lt $inputs.count; $($x += $slopes[$s][0]; $y += $slopes[$s][1])) {
-        if ($inputs[$y][$(if ($x -lt $inputs[$y].length) {$x} else {$x % $inputs[$y].length})] -eq '#') {
-            $slopetrees++;
-        } 
+foreach ($pprecord in $pprecords) {
+    $recordobj = $pprecord -split " " | ConvertFrom-StringData -Delimiter ":"
+    $requiredcount = ($objprops | Where-Object {$_.required -eq $true}).count
+    $validpropscount = 0
+    
+    foreach ($objprop in $objprops) {
+        if ($objprop.required -eq "True" -and $recordobj.keys -notcontains $objprop.prop) {
+
+        }
+        else {
+
+        }
     }
-    $trees += New-Object -TypeName PSObject -Property @{
-        slope_number = $s + 1;
-        description = "$($slopes[$s][0]),$($slopes[$s][1])";
-        tree_count = $slopetrees;
-    }
-}
 
-foreach ($tree in $trees) {
-    if ($answer -gt 0) {
-        $answer = $answer * $tree.tree_count;
+    foreach ($rkey in $recordobj.keys) {
+        if ($objprops.prop -contains $rkey) {
+            $validpropscount++
+        }
+    }
+
+    if ($validpropscount -ge $requiredcount) {
+        $Valid++
     }
     else {
-        $answer = $tree.tree_count
+        $Invlaid++
     }
+
 }
+
+$test = $temppass[0] -split " "
+
+$testobj = $test | ConvertFrom-StringData -Delimiter ":"
+
+get-member -InputObject $testobj
