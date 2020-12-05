@@ -1,4 +1,4 @@
-$inputs = Get-Content ~/Desktop/AoC/Day_3/input_3.txt
+$inputs = Get-Content ~/repos/github.com/adventofcode2020/Day_3/input_3.txt
 
 $slopes = @(@(1,1),@(3,1),@(5,1),@(7,1),@(1,2))
 

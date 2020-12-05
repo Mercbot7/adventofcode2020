@@ -1,5 +1,5 @@
 ### Phase_1
-$entries = Import-Csv ~/Desktop/AoC/Day_2/input_2.csv
+$entries = Import-Csv ~/repos/github.com/adventofcode2020/Day_2/input_2.csv
 
 [int]$valid = 0
 [int]$invalid = 0

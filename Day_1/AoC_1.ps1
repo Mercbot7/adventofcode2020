@@ -1,5 +1,5 @@
 ## Stage 1
-$nums = Get-Content ~/Desktop/input.txt | ForEach-Object{[int]$_} | Sort-Object
+$nums = Get-Content ~/repos/github.com/adventofcode2020/Day_1/input_1.txt | ForEach-Object{[int]$_} | Sort-Object
 [int]$total = 2020
 $product = $null
 for ($i = 0; $i -lt $nums.count; $i++) {

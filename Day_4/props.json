@@ -1,0 +1,10 @@
+[
+    {"prop" : "byr","required" : "True"},
+    {"prop" : "iyr","required" : "True"},
+    {"prop" : "eyr","required" : "True"},
+    {"prop" : "hgt","required" : "True"},
+    {"prop" : "hcl","required" : "True"},
+    {"prop" : "ecl","required" : "True"},
+    {"prop" : "pid","required" : "True"},
+    {"prop" : "cid","required" : "False"}
+]
