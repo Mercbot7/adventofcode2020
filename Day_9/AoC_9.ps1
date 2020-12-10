@@ -1,7 +1,7 @@
 $Day = 9
-$inputs = Get-Content "~/repos/github.com/adventofcode2020/Day_$Day/input_$Day copy.txt"
+$inputs = Get-Content "~/repos/github.com/adventofcode2020/Day_$Day/input_$Day.txt"
 
-[int]$block = 5
+[int]$block = 25
 
 function Compare-TwoNumbers ($n1, $n2, $eval) {
     $return = $false;
@@ -14,7 +14,6 @@ function Compare-TwoNumbers ($n1, $n2, $eval) {
 function Get-Block ($blocknums) {
     $returnobj = New-Object PSObject -Property @{
         evalnum = $blocknums[-1];
-        lastblocknum = $blocknums[-2]
         truecomps = @()
     }
     $evalblock = $blocknums[0..($blocknums.count - 2)]
@@ -33,19 +32,34 @@ function Get-Block ($blocknums) {
     return $returnobj
 }
 
-for ($i = 0; $i -le $inputs.count; $i += $block) {
-    $blockeval = Get-Block -blocknums $inputs[$i..($i + $block)]
-    $blockeval
-    # if ($blockeval.truecomps.count -lt 1) {
-    #     $blockeval
-    # }
+for ($i = $block; $i -le $inputs.count; $i++) {
+    $blockeval = Get-Block -blocknums $inputs[($i - $block)..$i]
+
+    if ($blockeval.truecomps.count -lt 1) {
+        [int64]$part1answer = $blockeval.evalnum;
+        break;
+    }
 }
 
-$bnums = $inputs[0..25]
-$bnums[0..($bnums.count - 1)]
-$bnums[0..($bnums.count - 2)]
-# $anchoref = ($i + $block) - 1
-#     $anchornum = $inputs[$anchoref]
-#     $subnums = $inputs[$i..$anchoref]
-#     $evalnum = $inputs[$block]
-#     $anomaly = $null
+$part1answer
+## Part 2
+
+[System.Collections.ArrayList]$contiguousblocks = $inputs | Select-Object
+$counter = 0
+
+while ((($contiguousblocks[0..$counter] | Measure-Object -sum).sum -ne $part1answer) -and ($contiguousblocks.count -gt 1)) {
+    if (($contiguousblocks[0..$counter] | Measure-Object -sum).sum -lt $part1answer) {
+        $counter++
+    }
+    else {
+        
+        $contiguousblocks.RemoveAt(0)
+        $counter = 0
+        $contiguousblocks.count
+    }
+}
+
+$finalblock = $contiguousblocks[0..$counter] | ForEach-Object {[int64]$_} | Sort-Object
+$answer = [int64]$finalblock[0] + [int64]$finalblock[-1]
+
+$answer
